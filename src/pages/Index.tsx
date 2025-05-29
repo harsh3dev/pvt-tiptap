@@ -58,9 +58,9 @@ By the end of this course, you'll be able to confidently design, prototype, and 
           
           <TiptapEditor
             markdownContent={sampleMarkdownContent}
-            editable={false}
-            showTopMenu={false}
-            showBubbleMenu={false}
+            editable={true}
+            showTopMenu={true}
+            showBubbleMenu={true}
             onUpdate={handleUpdate}
             onImageUpload={asyncImageUpload}
             onVideoUpload={asyncVideoUpload}

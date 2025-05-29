@@ -24,6 +24,8 @@ export const SectionCard = Node.create<SectionCardOptions>({
     }
   },
 
+  draggable: true,
+
   group: 'block',
   
   content: '',

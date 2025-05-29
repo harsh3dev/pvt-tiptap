@@ -9,11 +9,27 @@ const SectionCardComponent: React.FC<NodeViewProps> = ({
 
     const handleEdit = () => {
         console.log('Edit section:', node.attrs.title)
+        toggleEditable()
+    }
+
+    const [isEditable, setIsEditable] = React.useState(false)
+
+    const toggleEditable = () => {
+        setIsEditable(!isEditable)
+        if (!isEditable) {
+            editor.commands.setNodeSelection(getPos())
+        } else {
+            editor.commands.blur()
+        }
+    }
+
+    const handleLog = () => {
+        console.log(editor.getHTML())
     }
 
     return (
         <NodeViewWrapper className="section-card-wrapper">
-            <div className="bg-gray-100 rounded-lg border border-gray-300 shadow-sm mb-4 p-4 overflow-hidden not-prose">
+            <div data-drag-handle contentEditable={isEditable} className="bg-gray-100 rounded-lg border border-gray-300 shadow-sm mb-4 p-4 overflow-hidden not-prose">
                 <h3 className="text-xl text-gray-900 font-semibold mb-4">{node.attrs.title}</h3>              <div className="relative bg-white border border-gray-200 rounded-lg p-2 shadow-sm">
                     <div className="flex items-start justify-between">                      <div className="p-2 prose prose-sm max-w-none text-gray-900">
                         <div
@@ -22,6 +38,10 @@ const SectionCardComponent: React.FC<NodeViewProps> = ({
                             }}
                         />
                     </div>
+
+                    <button onClick={handleLog}>
+                        log
+                    </button>
 
                         <button
                             onClick={handleEdit}
