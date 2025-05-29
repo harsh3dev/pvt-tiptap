@@ -33,11 +33,15 @@ export const getDefaultExtensions = (options?: {
     HTMLAttributes: {
       class: 'prose-bullet-list',
     },
+    keepMarks: true,
+    keepAttributes: false,
   }),
   OrderedList.configure({
     HTMLAttributes: {
       class: 'prose-ordered-list',
     },
+    keepMarks: true,
+    keepAttributes: false,
   }),
   Highlight.configure({
     multicolor: true,

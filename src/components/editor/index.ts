@@ -1,6 +1,5 @@
 
 export { default as TiptapEditor } from './TiptapEditor'
-export { default as SectionBasedEditor } from './SectionBasedEditor'
 export { default as TopMenuBar } from './TopMenuBar'
 export { default as BubbleMenu } from './BubbleMenu'
 // export { ImageUpload } from './extensions/ImageUpload'

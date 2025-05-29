@@ -108,39 +108,10 @@ Follow these steps to set up your database:
 Deploy your application to production using these recommended steps.`)
   }
 
-  const addNewSection = () => {
-    if (editor) {
-      editor.commands.insertContent({
-        type: 'sectionCard',
-        attrs: {
-          title: 'New Section',
-          content: '<p>Add your content here...</p>',
-        },
-      })
-    }
-  }
-
   return (
     <div className={`space-y-4 ${className}`}>
       {/* Controls */}
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <Button
-            onClick={loadDifferentContent}
-            variant="outline"
-            size="sm"
-          >
-            Load Sample Content
-          </Button>
-          <Button
-            onClick={addNewSection}
-            variant="outline"
-            size="sm"
-          >
-            Add Section
-          </Button>
-        </div>
-        
+      <div className="flex items-center justify-between gap-4">        
         <Button
           onClick={() => setShowMarkdown(!showMarkdown)}
           variant="outline"
@@ -150,12 +121,10 @@ Deploy your application to production using these recommended steps.`)
         </Button>
       </div>
 
-      {/* Rendered sections */}
       <div className="space-y-0">
         <EditorContent editor={editor} />
       </div>
 
-      {/* Raw content editor */}
       {showMarkdown && (
         <div className="bg-white p-4 rounded-lg border border-gray-200">
           <h3 className="font-medium text-gray-700 mb-2">

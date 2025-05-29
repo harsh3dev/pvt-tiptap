@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { Editor } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
+import { marked } from 'marked'
 
 export interface ParsedSection {
   title: string
@@ -44,17 +41,17 @@ export const parseIntoSections = (markdownContent: string): ParsedSection[] => {
   return sections
 }
 
-// Convert markdown content to HTML using a temporary editor
+// Convert markdown content to HTML using marked
 export const markdownToHtml = (markdown: string): string => {
   try {
-    const tempEditor = new Editor({
-      extensions: [StarterKit],
-      content: markdown,
+    // Configure marked for better list handling
+    marked.setOptions({
+      breaks: true,
+      gfm: true,
     })
     
-    const html = tempEditor.getHTML()
-    tempEditor.destroy()
-    return html
+    const html = marked.parse(markdown)
+    return typeof html === 'string' ? html : markdown
   } catch (error) {
     console.error('Error converting markdown to HTML:', error)
     return markdown // Return original content as fallback

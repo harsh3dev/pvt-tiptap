@@ -7,10 +7,13 @@ import TopMenuBar from './TopMenuBar'
 import BubbleMenu from './BubbleMenu'
 import { getDefaultExtensions, createCustomExtensions } from './utils/extensions'
 import { handleUpdate } from './utils/handlers'
+import { useSectionEditor } from '../../hooks/useSectionEditor'
+import { processSections } from './utils/markdownParser'
 
 interface TiptapEditorProps {
   content?: string
   jsonContent?: any
+  markdownContent?: string
   editable?: boolean
   showTopMenu?: boolean
   showBubbleMenu?: boolean
@@ -25,6 +28,7 @@ interface TiptapEditorProps {
 const TiptapEditor: React.FC<TiptapEditorProps> = ({
   content = '',
   jsonContent,
+  markdownContent,
   editable = true,
   showTopMenu = true,
   showBubbleMenu = true,
@@ -88,8 +92,31 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
     }
   }, [editable, editor])
 
+  // Handle markdown content updates - convert to sections
+  useEffect(() => {
+    if (editor && markdownContent && markdownContent.trim()) {
+      // Process sections from markdown content
+      const sections = processSections(markdownContent)
+      
+      // Create document content with sections as SectionCards
+      const docContent = {
+        type: 'doc',
+        content: sections.map((section) => ({
+          type: 'sectionCard',
+          attrs: {
+            title: section.title,
+            content: section.content,
+          },
+        }))
+      }
+      
+      // Set content as sections
+      editor.commands.setContent(docContent, false)
+    }
+  }, [markdownContent, editor])
+
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 shadow-sm">
+    <div className=" border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 shadow-sm">
       {showTopMenu && (
         <TopMenuBar
           editor={editor}
@@ -102,7 +129,7 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
       <div className="relative">
         <EditorContent
           editor={editor}
-          className="min-h-[200px] p-4 [&_.ProseMirror]:outline-none [&_ul]:list-disc [&_ul]:ml-6 [&_ol]:list-decimal [&_ol]:ml-6 [&_li]:mb-1"
+          className="min-h-[200px] p-4 [&_.ProseMirror]:outline-none"
           placeholder={placeholder}
         />
         
